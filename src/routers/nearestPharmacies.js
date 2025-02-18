@@ -1,14 +1,12 @@
 import { Router } from "express";
-import { getNearestPharmacies } from "../services/nearestPharmacies.js";
+import { getNearestPharmaciesController } from "../controllers/nearestPharmacies.js";
+import { ctrlWrapper } from "../utils/ctrlWrapper.js";
 
-const router = Router();
+const nearestPharmaciesRouter = Router();
 
-router.get("/api/stores/nearest", async (req, res) => {
-  const nearestPharmacies = await getNearestPharmacies();
+nearestPharmaciesRouter.get(
+  "/api/stores/nearest",
+  ctrlWrapper(getNearestPharmaciesController)
+);
 
-  res.status(200).json({
-    data: nearestPharmacies,
-  });
-});
-
-export default router;
+export default nearestPharmaciesRouter;

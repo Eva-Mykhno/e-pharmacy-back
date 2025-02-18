@@ -1,14 +1,18 @@
 import { Router } from "express";
-import { getAllPharmacies } from "../services/pharmacies.js";
+import {
+  getPharmaciesController,
+  getPharmacyByIdController,
+} from "../controllers/pharmacies.js";
+import { ctrlWrapper } from "../utils/ctrlWrapper.js";
+import { isValidId } from "../middlewares/isValidId.js";
 
-const router = Router();
+const pharmaciesRouter = Router();
 
-router.get("/api/stores", async (req, res) => {
-  const pharmacies = await getAllPharmacies();
+pharmaciesRouter.get("/api/stores", ctrlWrapper(getPharmaciesController));
+pharmaciesRouter.get(
+  "/api/stores/:id",
+  isValidId,
+  ctrlWrapper(getPharmacyByIdController)
+);
 
-  res.status(200).json({
-    data: pharmacies,
-  });
-});
-
-export default router;
+export default pharmaciesRouter;

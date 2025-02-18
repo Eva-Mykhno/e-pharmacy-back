@@ -1,30 +1,19 @@
 import { Router } from "express";
-import { getAllProducts, getProductById } from "../services/products.js";
 
-const router = Router();
+import {
+  getProductByIdController,
+  getProductsController,
+} from "../controllers/products.js";
+import { ctrlWrapper } from "../utils/ctrlWrapper.js";
+import { isValidId } from "../middlewares/isValidId.js";
 
-router.get("/api/products", async (req, res) => {
-  const products = await getAllProducts();
+const productsRouter = Router();
 
-  res.status(200).json({
-    data: products,
-  });
-});
+productsRouter.get("/api/products", ctrlWrapper(getProductsController));
+productsRouter.get(
+  "/api/products/:id",
+  isValidId,
+  ctrlWrapper(getProductByIdController)
+);
 
-router.get("/api/products/:id", async (req, res, next) => {
-  const { id } = req.params;
-  const product = await getProductById(id);
-
-  if (!product) {
-    res.status(404).json({
-      message: "Product not found",
-    });
-    return;
-  }
-
-  res.status(200).json({
-    data: product,
-  });
-});
-
-export default router;
+export default productsRouter;

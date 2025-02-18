@@ -1,21 +1,27 @@
 import { Router } from "express";
-import { getUserById } from "../services/users.js";
+import {
+  getUserByIdController,
+  loginUserController,
+  registerUserController,
+} from "../controllers/users.js";
+import { ctrlWrapper } from "../utils/ctrlWrapper.js";
+import { validateBody } from "../middlewares/validateBody.js";
+import { loginUserSchema, registerUserSchema } from "../validation/users.js";
 
-const router = Router();
+const usersRouter = Router();
 
-router.get("/api/user/user-info", async (req, res, next) => {
-  const { id } = req.params;
-  const user = await getUserById(id);
+usersRouter.post(
+  "api/user/register",
+  validateBody(registerUserSchema),
+  ctrlWrapper(registerUserController)
+);
 
-  if (!user) {
-    res.status(404).json({
-      message: "Product not found",
-    });
-    return;
-  }
+usersRouter.post(
+  "api/user/login",
+  validateBody(loginUserSchema),
+  loginUserController
+);
 
-  res.status(200).json({
-    email: user.email,
-    name: user.name,
-  });
-});
+usersRouter.get("/api/user/user-info", ctrlWrapper(getUserByIdController));
+
+export default usersRouter;
