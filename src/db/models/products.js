@@ -21,7 +21,15 @@ const ProductSchema = new Schema(
     },
     category: {
       type: String,
-      enum: ["Head", "Leg", "Heart", "Medicine"],
+      enum: [
+        "Head",
+        "Leg",
+        "Heart",
+        "Medicine",
+        "Dental Care",
+        "Hand",
+        "Skin Care",
+      ],
     },
   },
   {
