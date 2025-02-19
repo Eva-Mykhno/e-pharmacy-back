@@ -1,8 +1,14 @@
 import createHttpError from "http-errors";
 import { getAllPharmacies, getPharmacyById } from "../services/pharmacies.js";
+import { parsePaginationParams } from "../middlewares/parsePaginationParams.js";
 
 export const getPharmaciesController = async (req, res) => {
-  const pharmacies = await getAllPharmacies();
+  const { page, perPage } = parsePaginationParams(req.query);
+
+  const pharmacies = await getAllPharmacies({
+    page,
+    perPage,
+  });
 
   res.json({
     status: 200,

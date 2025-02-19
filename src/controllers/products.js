@@ -1,8 +1,14 @@
 import createHttpError from "http-errors";
 import { getAllProducts, getProductById } from "../services/products.js";
+import { parsePaginationParams } from "../middlewares/parsePaginationParams.js";
 
 export const getProductsController = async (req, res) => {
-  const products = await getAllProducts();
+  const { page, perPage } = parsePaginationParams(req.query);
+
+  const products = await getAllProducts({
+    page,
+    perPage,
+  });
 
   res.json({
     status: 200,

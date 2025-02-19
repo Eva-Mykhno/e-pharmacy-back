@@ -29,6 +29,6 @@ const nearestPharmacySchema = new Schema(
 );
 
 export const NearestPharmaciesCollection = model(
-  "nearestPharmacies",
+  "nearest",
   nearestPharmacySchema
 );
