@@ -2,6 +2,8 @@ import { Router } from "express";
 import {
   getUserByIdController,
   loginUserController,
+  logoutUserController,
+  refreshUserSessionController,
   registerUserController,
 } from "../controllers/users.js";
 import { ctrlWrapper } from "../utils/ctrlWrapper.js";
@@ -11,17 +13,24 @@ import { loginUserSchema, registerUserSchema } from "../validation/users.js";
 const usersRouter = Router();
 
 usersRouter.post(
-  "api/user/register",
+  "/api/user/register",
   validateBody(registerUserSchema),
   ctrlWrapper(registerUserController)
 );
 
 usersRouter.post(
-  "api/user/login",
+  "/api/user/login",
   validateBody(loginUserSchema),
   loginUserController
 );
 
+usersRouter.post("/api/user/logout", ctrlWrapper(logoutUserController));
+
 usersRouter.get("/api/user/user-info", ctrlWrapper(getUserByIdController));
+
+usersRouter.post(
+  "/api/user/refresh",
+  ctrlWrapper(refreshUserSessionController)
+);
 
 export default usersRouter;

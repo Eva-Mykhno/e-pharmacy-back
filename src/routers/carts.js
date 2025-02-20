@@ -5,8 +5,11 @@ import {
   postCartController,
   updateCartController,
 } from "../controllers/carts.js";
+import { authenticate } from "../middlewares/authenticate.js";
 
 const cartsRouter = Router();
+
+cartsRouter.use(authenticate);
 
 cartsRouter.get("/api/cart", ctrlWrapper(getCartController));
 cartsRouter.put("/api/cart/update", ctrlWrapper(updateCartController));
