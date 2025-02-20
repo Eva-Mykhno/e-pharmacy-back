@@ -21,6 +21,10 @@ const pharmacySchema = new Schema(
     rating: {
       type: Number,
     },
+    isOpen: {
+      type: String,
+      enum: ["open", "close"],
+    },
   },
   {
     timestamps: true,

@@ -31,6 +31,9 @@ const ProductSchema = new Schema(
         "Skin Care",
       ],
     },
+    discount: {
+      type: String,
+    },
   },
   {
     timestamps: true,
