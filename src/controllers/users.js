@@ -47,9 +47,6 @@ export const logoutUserController = async (req, res) => {
 };
 
 export const getUserByIdController = async (req, res, next) => {
-  // const { id } = req.params;
-  // const user = await getUserById(id);
-
   const user = await getUserById(req.user.userId);
 
   if (!user) {

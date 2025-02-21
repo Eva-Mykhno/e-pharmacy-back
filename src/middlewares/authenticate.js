@@ -24,8 +24,6 @@ export const authenticate = async (req, res, next) => {
 
     req.user = decoded;
 
-    // req.user = { userId: decoded.userId };
-
     next();
   } catch {
     next(createHttpError(401, "Invalid token"));
