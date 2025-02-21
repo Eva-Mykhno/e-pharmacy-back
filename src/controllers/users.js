@@ -47,8 +47,10 @@ export const logoutUserController = async (req, res) => {
 };
 
 export const getUserByIdController = async (req, res, next) => {
-  const { id } = req.params;
-  const user = await getUserById(id);
+  // const { id } = req.params;
+  // const user = await getUserById(id);
+
+  const user = await getUserById(req.user.userId);
 
   if (!user) {
     throw createHttpError(404, "User not found");
@@ -56,7 +58,7 @@ export const getUserByIdController = async (req, res, next) => {
 
   res.json({
     status: 200,
-    message: `Successfully found user by ${id}`,
+    message: `Successfully found info about user`,
     data: user,
   });
 };

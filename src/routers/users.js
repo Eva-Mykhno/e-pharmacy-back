@@ -9,6 +9,7 @@ import {
 import { ctrlWrapper } from "../utils/ctrlWrapper.js";
 import { validateBody } from "../middlewares/validateBody.js";
 import { loginUserSchema, registerUserSchema } from "../validation/users.js";
+import { authenticate } from "../middlewares/authenticate.js";
 
 const usersRouter = Router();
 
@@ -26,7 +27,11 @@ usersRouter.post(
 
 usersRouter.post("/api/user/logout", ctrlWrapper(logoutUserController));
 
-usersRouter.get("/api/user/user-info", ctrlWrapper(getUserByIdController));
+usersRouter.get(
+  "/api/user/user-info",
+  authenticate,
+  ctrlWrapper(getUserByIdController)
+);
 
 usersRouter.post(
   "/api/user/refresh",
