@@ -22,7 +22,7 @@ export const authenticate = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
 
-    req.user = { id: decoded.userId };
+    req.user = { userId: decoded.userId };
 
     next();
   } catch {

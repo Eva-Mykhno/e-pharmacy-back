@@ -1,7 +1,7 @@
 import createHttpError from "http-errors";
-import { CartCollection } from "../models/cartModel.js";
-import { OrdersCollection } from "../models/orderModel.js";
-import { ProductsCollection } from "../models/productModel.js";
+import { CartCollection } from "../db/models/carts.js";
+import { OrdersCollection } from "../db/models/orders.js";
+import { ProductsCollection } from "../db/models/products.js";
 
 export const getCart = async (userId) => {
   const cart = await CartCollection.findOne({ user: userId }).populate(

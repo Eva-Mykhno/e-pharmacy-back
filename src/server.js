@@ -10,6 +10,7 @@ import productsRouter from "./routers/products.js";
 import reviewsRouter from "./routers/reviews.js";
 import usersRouter from "./routers/users.js";
 import cookieParser from "cookie-parser";
+import cartsRouter from "./routers/carts.js";
 
 const PORT = Number(env("PORT", "3000"));
 
@@ -41,6 +42,7 @@ export const startServer = () => {
   app.use(productsRouter);
   app.use(reviewsRouter);
   app.use(usersRouter);
+  app.use(cartsRouter);
 
   app.use("*", notFoundHandler);
   app.use(errorHandler);

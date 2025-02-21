@@ -2,7 +2,6 @@ import createHttpError from "http-errors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { UsersCollection } from "../db/models/users.js";
-import { ONE_DAY } from "../constants/index.js";
 import { SessionsCollection } from "../db/models/sessions.js";
 import { env } from "../utils/env.js";
 
@@ -52,14 +51,16 @@ export const loginUser = async (payload) => {
     expiresIn: "1d",
   });
 
-  return await SessionsCollection.create({
+  await SessionsCollection.create({
     userId: user._id,
-    refreshToken,
-    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
-  }).then(() => ({
     accessToken,
     refreshToken,
-  }));
+  });
+
+  return {
+    accessToken,
+    refreshToken,
+  };
 };
 
 export const logoutUser = async (sessionId) => {
