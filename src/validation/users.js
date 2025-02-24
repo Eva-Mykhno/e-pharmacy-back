@@ -12,6 +12,14 @@ export const registerUserSchema = Joi.object({
     "string.empty": "Email cannot be empty.",
     "string.email": "Invalid email format.",
   }),
+  phone: Joi.string()
+    .pattern(/^\+?[0-9]{10,15}$/)
+    .required()
+    .messages({
+      "any.required": "Phone number is required.",
+      "string.empty": "Phone number cannot be empty.",
+      "string.pattern.base": "Phone number format is invalid.",
+    }),
   password: Joi.string()
     .min(8)
     .max(64)
@@ -24,14 +32,6 @@ export const registerUserSchema = Joi.object({
       "string.max": "Password should not exceed 64 characters.",
       "string.pattern.base":
         "Password must have 1 number and 1 special character.",
-    }),
-  phone: Joi.string()
-    .pattern(/^\+?[0-9]{10,15}$/)
-    .required()
-    .messages({
-      "any.required": "Phone number is required.",
-      "string.empty": "Phone number cannot be empty.",
-      "string.pattern.base": "Phone number format is invalid.",
     }),
 });
 
