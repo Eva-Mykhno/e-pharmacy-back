@@ -18,9 +18,9 @@ export const getAllProducts = async ({
     productsQuery.where("category").equals(filter.category);
   }
 
-  if (filter.name) {
-    productsQuery.where("name").regex(filter.name, "i");
-  }
+ if (filter.name && filter.name.trim() !== "") {
+  productsQuery.where("name").regex(filter.name, "i");
+}
 
   const [productsCount, products] = await Promise.all([
     ProductsCollection.countDocuments(productsQuery.getFilter()),
