@@ -58,6 +58,7 @@ export const loginUser = async (payload) => {
   });
 
   return {
+    user,
     accessToken,
     refreshToken,
   };
