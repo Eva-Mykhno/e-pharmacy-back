@@ -51,10 +51,14 @@ export const loginUser = async (payload) => {
     expiresIn: "1d",
   });
 
+  const refreshTokenValidUntil = new Date();
+  refreshTokenValidUntil.setDate(refreshTokenValidUntil.getDate() + 1); 
+
   await SessionsCollection.create({
     userId: user._id,
     accessToken,
     refreshToken,
+    refreshTokenValidUntil, 
   });
 
   return {
