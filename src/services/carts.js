@@ -17,16 +17,13 @@ export const updateCart = async ({ userId, productId, quantity }) => {
     cart = new CartCollection({ user: userId, products: [] });
   }
 
-  // Ищем, есть ли уже такой товар в корзине
   const productIndex = cart.products.findIndex(
     (p) => p.product.toString() === productId
   );
 
   if (productIndex > -1) {
-    // Если товар уже есть – обновляем его количество
-    cart.products[productIndex].quantity += quantity;
+     cart.products[productIndex].quantity += quantity;
   } else {
-    // Если товара нет – ищем его в базе и добавляем в корзину
     const product = await ProductsCollection.findById(productId);
     if (!product) {
       throw createHttpError(404, "Product not found");
@@ -35,7 +32,7 @@ export const updateCart = async ({ userId, productId, quantity }) => {
     cart.products.push({
       product: productId,
       name: product.name,
-      category: product.category || "Unknown", // Если category отсутствует, использовать значение "Unknown"
+      category: product.category || "Unknown", 
       price: product.price,
       quantity,
     });
