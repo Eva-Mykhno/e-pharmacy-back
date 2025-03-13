@@ -14,10 +14,16 @@ const cartSchema = new Schema(
           ref: "products",
           required: true,
         },
-        name: {
-          type: String,
-          required: true,
-        },
+          photo: {
+      type: String,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    suppliers: {
+      type: String,
+    },
         price: {
           type: Number,
           required: true,
