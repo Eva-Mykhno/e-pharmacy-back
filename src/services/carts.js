@@ -10,25 +10,61 @@ export const getCart = async (userId) => {
   return cart ? cart.products : [];
 };
 
+// export const updateCart = async ({ userId, productId, quantity }) => {
+//   let cart = await CartCollection.findOne({ user: userId });
+
+//   if (!cart) {
+//     cart = new CartCollection({ user: userId, products: [] });
+//   }
+
+//   const productIndex = cart.products.findIndex(
+//     (p) => p.product.toString() === productId
+//   );
+
+//   if (productIndex > -1) {
+//      cart.products[productIndex].quantity += quantity;
+//   } else {
+//     const product = await ProductsCollection.findById(productId);
+//     if (!product) {
+//       throw createHttpError(404, "Product not found");
+//     }
+
+//     cart.products.push({
+//       product: productId,
+//       name: product.name,
+//       price: product.price,
+//       quantity,
+//     });
+//   }
+
+//   await cart.save();
+//   return cart;
+// };
+
 export const updateCart = async ({ userId, productId, quantity }) => {
   let cart = await CartCollection.findOne({ user: userId });
-
   if (!cart) {
     cart = new CartCollection({ user: userId, products: [] });
   }
-
+  
   const productIndex = cart.products.findIndex(
     (p) => p.product.toString() === productId
   );
-
+  
   if (productIndex > -1) {
-     cart.products[productIndex].quantity += quantity;
-  } else {
-    const product = await ProductsCollection.findById(productId);
+        if (quantity === 0) {
+      cart.products.splice(productIndex, 1);
+    } else {
+      cart.products[productIndex].quantity += quantity;
+          if (cart.products[productIndex].quantity < 1) {
+        cart.products[productIndex].quantity = 1;
+      }
+    }
+  } else if (quantity > 0) {
+     const product = await ProductsCollection.findById(productId);
     if (!product) {
       throw createHttpError(404, "Product not found");
     }
-
     cart.products.push({
       product: productId,
       name: product.name,
@@ -36,7 +72,7 @@ export const updateCart = async ({ userId, productId, quantity }) => {
       quantity,
     });
   }
-
+  
   await cart.save();
   return cart;
 };
