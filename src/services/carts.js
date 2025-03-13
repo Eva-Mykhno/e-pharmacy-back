@@ -10,37 +10,6 @@ export const getCart = async (userId) => {
   return cart ? cart.products : [];
 };
 
-// export const updateCart = async ({ userId, productId, quantity }) => {
-//   let cart = await CartCollection.findOne({ user: userId });
-
-//   if (!cart) {
-//     cart = new CartCollection({ user: userId, products: [] });
-//   }
-
-//   const productIndex = cart.products.findIndex(
-//     (p) => p.product.toString() === productId
-//   );
-
-//   if (productIndex > -1) {
-//      cart.products[productIndex].quantity += quantity;
-//   } else {
-//     const product = await ProductsCollection.findById(productId);
-//     if (!product) {
-//       throw createHttpError(404, "Product not found");
-//     }
-
-//     cart.products.push({
-//       product: productId,
-//       name: product.name,
-//       price: product.price,
-//       quantity,
-//     });
-//   }
-
-//   await cart.save();
-//   return cart;
-// };
-
 export const updateCart = async ({ userId, productId, quantity }) => {
   let cart = await CartCollection.findOne({ user: userId });
   if (!cart) {
@@ -68,6 +37,8 @@ export const updateCart = async ({ userId, productId, quantity }) => {
     cart.products.push({
       product: productId,
       name: product.name,
+      photo: product.photo,
+      suppliers: product.suppliers,
       price: product.price,
       quantity,
     });
@@ -96,6 +67,8 @@ export const postCart = async ({ userId, shippingInfo, paymentMethod }) => {
     products: cart.products.map((item) => ({
       product: item.product._id,
       name: item.product.name,
+      photo: item.product.photo,
+      suppliers: item.product.suppliers,
       price: item.product.price,
       quantity: item.quantity,
     })),
