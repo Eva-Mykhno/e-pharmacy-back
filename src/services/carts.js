@@ -32,7 +32,6 @@ export const updateCart = async ({ userId, productId, quantity }) => {
     cart.products.push({
       product: productId,
       name: product.name,
-      category: product.category || "Unknown", 
       price: product.price,
       quantity,
     });
