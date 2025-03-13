@@ -12,7 +12,7 @@ const cartsRouter = Router();
 cartsRouter.use(authenticate);
 
 cartsRouter.get("/api/cart", ctrlWrapper(getCartController));
-cartsRouter.put("/api/cart/update", ctrlWrapper(updateCartController));
+cartsRouter.patch("/api/cart/update", ctrlWrapper(updateCartController));
 cartsRouter.post("/api/cart/checkout", ctrlWrapper(postCartController));
 
 export default cartsRouter;
