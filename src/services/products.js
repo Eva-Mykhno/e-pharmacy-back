@@ -18,8 +18,8 @@ export const getAllProducts = async ({
     productsQuery.where("category").equals(filter.category);
   }
 
- if (filter.name && filter.name.trim() !== "") {
-  productsQuery.where("name").regex(filter.name, "i");
+if (filter.name) {
+  productsQuery.where("name").regex(filter.name);
 }
 
   const [productsCount, products] = await Promise.all([
