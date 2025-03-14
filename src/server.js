@@ -21,7 +21,7 @@ export const startServer = () => {
   // app.use(cors());
   app.use(
     cors({
-      origin: "http://localhost:5173",
+      origin: "https://e-pharmacy-front.vercel.app",
       credentials: true,
       methods: "GET,POST,PUT,DELETE,PATCH,OPTIONS",
       allowedHeaders: "Content-Type,Authorization",
