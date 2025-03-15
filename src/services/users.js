@@ -97,5 +97,5 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
     expiresIn: "1h",
   });
 
-  return { accessToken };
+  return { accessToken, userId: session.userId };
 };
