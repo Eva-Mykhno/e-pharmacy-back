@@ -14,7 +14,7 @@ export const registerUserController = async (req, res) => {
   res.status(201).json({
     status: 201,
     message: "Successfully registered a user!",
-    data: {user},
+    data: { user },
   });
 };
 
@@ -57,7 +57,7 @@ export const getUserByIdController = async (req, res, next) => {
   res.json({
     status: 200,
     message: "Successfully found info about user",
-    data: {user},
+    data: { user },
   });
 };
 
