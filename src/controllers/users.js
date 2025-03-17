@@ -8,15 +8,38 @@ import {
 } from "../services/users.js";
 import { ONE_DAY } from "../constants/index.js";
 
+// export const registerUserController = async (req, res) => {
+//   const user = await registerUser(req.body);
+
+//   res.status(201).json({
+//     status: 201,
+//     message: "Successfully registered a user!",
+//     data: { user },
+//   });
+// };
+
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
 
+  // После создания пользователя сразу же логиним его
+  const session = await loginUser({ email: user.email, password: req.body.password });
+
+  res.cookie("refreshToken", session.refreshToken, {
+    httpOnly: true,
+    expires: new Date(Date.now() + ONE_DAY),
+  });
+
   res.status(201).json({
     status: 201,
-    message: "Successfully registered a user!",
-    data: { user },
+    message: "Successfully registered and logged in!",
+    data: {
+      user: session.user,
+      accessToken: session.accessToken,
+      refreshToken: session.refreshToken,
+    },
   });
 };
+
 
 export const loginUserController = async (req, res) => {
   const session = await loginUser(req.body);
