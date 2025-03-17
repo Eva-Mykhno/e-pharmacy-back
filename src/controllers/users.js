@@ -11,7 +11,6 @@ import { ONE_DAY } from "../constants/index.js";
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
 
-  // После создания пользователя сразу же логиним его
   const session = await loginUser({ email: user.email, password: req.body.password });
 
   res.cookie("refreshToken", session.refreshToken, {
