@@ -18,10 +18,12 @@ export const registerUser = async (payload) => {
 
   const encryptedPassword = await bcrypt.hash(payload.password, 10);
 
-  return await UsersCollection.create({
+  const newUser = await UsersCollection.create({
     ...payload,
     password: encryptedPassword,
   });
+
+  return newUser.toJSON();
 };
 
 export const loginUser = async (payload) => {
@@ -52,17 +54,17 @@ export const loginUser = async (payload) => {
   });
 
   const refreshTokenValidUntil = new Date();
-  refreshTokenValidUntil.setDate(refreshTokenValidUntil.getDate() + 1); 
+  refreshTokenValidUntil.setDate(refreshTokenValidUntil.getDate() + 1);
 
   await SessionsCollection.create({
     userId: user._id,
     accessToken,
     refreshToken,
-    refreshTokenValidUntil, 
+    refreshTokenValidUntil,
   });
 
   return {
-    user,
+    user: user.toJSON(),
     accessToken,
     refreshToken,
   };

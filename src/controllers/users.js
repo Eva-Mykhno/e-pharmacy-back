@@ -11,7 +11,10 @@ import { ONE_DAY } from "../constants/index.js";
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
 
-  const session = await loginUser({ email: user.email, password: req.body.password });
+  const session = await loginUser({
+    email: user.email,
+    password: req.body.password,
+  });
 
   res.cookie("refreshToken", session.refreshToken, {
     httpOnly: true,
@@ -22,13 +25,12 @@ export const registerUserController = async (req, res) => {
     status: 201,
     message: "Successfully registered and logged in!",
     data: {
-      user: session.user,
+      user: { ...session.user },
       accessToken: session.accessToken,
       refreshToken: session.refreshToken,
     },
   });
 };
-
 
 export const loginUserController = async (req, res) => {
   const session = await loginUser(req.body);
@@ -42,7 +44,7 @@ export const loginUserController = async (req, res) => {
     status: 200,
     message: "Successfully logged in!",
     data: {
-      user: session.user,
+      user: { ...session.user },
       accessToken: session.accessToken,
       refreshToken: session.refreshToken,
     },
@@ -86,7 +88,7 @@ export const refreshUserSessionController = async (req, res) => {
     message: "Successfully refreshed a session!",
     data: {
       accessToken: session.accessToken,
-      user,
+      user: user.toJSON(),
     },
   });
 };
